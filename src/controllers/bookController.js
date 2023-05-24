@@ -1,13 +1,16 @@
 const Book = require("../models/book");
 
 exports.getBooks = async (req, res, next) => {
-  try {
-    const books = await Book.fetchAll();
+  const books = await Book.fetchAll();
+  console.log("Books-> ", books);
 
-    res.status(201).json(books);
-  } catch (error) {
-    res.status(500).json({ general: "Something went wrong, please try again" });
-  }
+  res.status(200).json(books);
 };
 
-exports.addBook = (req, res, next) => {};
+exports.addBook = async (req, res, next) => {
+  const result = await Book.save(req.body);
+
+  if (result) {
+    res.status(200).send("Added");
+  }
+};
